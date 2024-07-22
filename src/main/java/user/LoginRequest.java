@@ -1,4 +1,4 @@
-package com.internship;
+package user;
 
 public class LoginRequest {
 	private String username;

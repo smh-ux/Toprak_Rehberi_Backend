@@ -1,4 +1,4 @@
-package com.internship;
+package user;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
