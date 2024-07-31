@@ -2,6 +2,8 @@ package com.example.Internship.Entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 public class User {
     @Id
@@ -14,8 +16,8 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    public User() {
-    }
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Land> lands;
 
     public Long getId() {
         return id;

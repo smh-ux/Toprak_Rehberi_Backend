@@ -2,6 +2,8 @@ package com.example.Internship.Entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 public class Land {
     @Id
@@ -23,9 +25,19 @@ public class Land {
     @Column(nullable = false)
     private int area;
 
-    public Land() {}
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    public long getId() {
+    @ManyToMany
+    @JoinTable(
+            name = "land_product",
+            joinColumns = @JoinColumn(name = "land_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
+    private List<Product> products;
+
+    public Long getId() {
         return id;
     }
 

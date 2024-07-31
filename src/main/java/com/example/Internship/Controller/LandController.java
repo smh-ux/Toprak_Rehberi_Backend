@@ -26,15 +26,4 @@ public class LandController {
         Land addedLand = landRepository.save(land);
         return new ResponseEntity<>(addedLand, HttpStatus.CREATED);
     }
-
-//    @PostMapping("/login")
-//    public ResponseEntity<String> loginUser(@RequestBody LoginRequest loginRequest) {
-//        Optional<User> optionalUser = userRepository.findByUsernameAndPassword(loginRequest.getUsername(), loginRequest.getPassword());
-//
-//        if (optionalUser.isPresent()) {
-//            return ResponseEntity.ok("Login successful");
-//        } else {
-//            return ResponseEntity.status(401).body("Invalid username or password");
-//        }
-//    }
 }
