@@ -3,6 +3,7 @@ package com.example.Internship.Entity;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Product {
@@ -13,8 +14,12 @@ public class Product {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @ManyToMany(mappedBy = "products")
-    private List<Land> lands;
+    @Column(nullable = false)
+    private int plantedArea;
+
+    @ManyToOne
+    @JoinColumn(name = "land_id")
+    private Land land;
 
     public String getName() {
         return name;
@@ -23,4 +28,13 @@ public class Product {
     public void setName(String name) {
         this.name = name;
     }
+
+    public int getPlantedArea() {
+        return plantedArea;
+    }
+
+    public void setPlantedArea(int plantedArea) {
+        this.plantedArea = plantedArea;
+    }
+
 }
