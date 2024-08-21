@@ -1,5 +1,7 @@
 package com.example.Internship.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -29,8 +31,9 @@ public class Land {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "land", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Product> product;
+    @ManyToOne
+    @JoinColumn(name = "neighborhood_id")
+    private Neighborhood neighborhood_id;
 
     public Long getId() {
         return id;
@@ -80,7 +83,19 @@ public class Land {
         this.area = area;
     }
 
+    public User getUser() {
+        return user;
+    }
+
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Neighborhood getNeighborhood_id() {
+        return neighborhood_id;
+    }
+
+    public void setNeighborhood_id(Neighborhood neighborhood_id) {
+        this.neighborhood_id = neighborhood_id;
     }
 }

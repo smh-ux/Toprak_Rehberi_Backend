@@ -1,5 +1,6 @@
 package com.example.Internship.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -18,10 +19,8 @@ public class User {
     @Column(nullable = false)
     private String password; // Make this hash
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Land> land;
-
     @OneToOne(mappedBy = "user")
+    @JsonIgnoreProperties("user")
     private Token token;
 
     public Long getId() {

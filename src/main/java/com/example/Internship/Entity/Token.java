@@ -1,5 +1,6 @@
 package com.example.Internship.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -16,6 +17,8 @@ public class Token {
     private LocalDateTime expiresAt;
 
     @OneToOne
+    @JoinColumn(name = "user_id")
+    @JsonIgnoreProperties("token") // Gereksiz JSON kısımlarını kullanmasın diye.
     private User user;
 
     public Long getId() {

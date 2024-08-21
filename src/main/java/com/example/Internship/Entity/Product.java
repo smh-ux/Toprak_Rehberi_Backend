@@ -15,11 +15,25 @@ public class Product {
     private String name;
 
     @Column(nullable = false)
+    private String harvestPeriod;
+
+    @Column(nullable = false)
+    private String plantedPeriod;
+
+    @Column(nullable = false)
     private int plantedArea;
 
     @ManyToOne
     @JoinColumn(name = "land_id")
     private Land land;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -27,6 +41,22 @@ public class Product {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getHarvestPeriod() {
+        return harvestPeriod;
+    }
+
+    public void setHarvestPeriod(String harvestPeriod) {
+        this.harvestPeriod = harvestPeriod;
+    }
+
+    public String getPlantedPeriod() {
+        return plantedPeriod;
+    }
+
+    public void setPlantedPeriod(String plantedPeriod) {
+        this.plantedPeriod = plantedPeriod;
     }
 
     public int getPlantedArea() {
@@ -37,4 +67,11 @@ public class Product {
         this.plantedArea = plantedArea;
     }
 
+    public Land getLand() {
+        return land;
+    }
+
+    public void setLand(Land land) {
+        this.land = land;
+    }
 }

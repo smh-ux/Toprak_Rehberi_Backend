@@ -35,7 +35,7 @@ public class LandController {
         land.setTown(landDTO.getTown());
         land.setNeighborhood(landDTO.getNeighborhood());
         land.setArea(landDTO.getArea());
-        land.setUser(user); // Kullanıcıyı ayarla
+        land.setUser(user);
 
         Land addedLand = landRepository.save(land);
         return new ResponseEntity<>(addedLand, HttpStatus.CREATED);
