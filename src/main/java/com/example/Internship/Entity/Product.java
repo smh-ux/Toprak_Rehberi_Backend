@@ -11,14 +11,8 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String name;
-
-    @Column(nullable = false)
-    private String harvestPeriod;
-
-    @Column(nullable = false)
-    private String plantedPeriod;
 
     @Column(nullable = false)
     private int plantedArea;
@@ -26,6 +20,14 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "land_id")
     private Land land;
+
+    @OneToOne
+    @JoinColumn(name = "period_id")
+    private Period period;
+
+    @OneToOne
+    @JoinColumn(name = "successRate_id")
+    private SuccessRate successRate;
 
     public Long getId() {
         return id;
@@ -43,22 +45,6 @@ public class Product {
         this.name = name;
     }
 
-    public String getHarvestPeriod() {
-        return harvestPeriod;
-    }
-
-    public void setHarvestPeriod(String harvestPeriod) {
-        this.harvestPeriod = harvestPeriod;
-    }
-
-    public String getPlantedPeriod() {
-        return plantedPeriod;
-    }
-
-    public void setPlantedPeriod(String plantedPeriod) {
-        this.plantedPeriod = plantedPeriod;
-    }
-
     public int getPlantedArea() {
         return plantedArea;
     }
@@ -73,5 +59,21 @@ public class Product {
 
     public void setLand(Land land) {
         this.land = land;
+    }
+
+    public Period getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(Period period) {
+        this.period = period;
+    }
+
+    public SuccessRate getSuccessRate() {
+        return successRate;
+    }
+
+    public void setSuccessRate(SuccessRate successRate) {
+        this.successRate = successRate;
     }
 }

@@ -12,36 +12,17 @@ public class SuccessRate {
     private String name;
 
     @Column(nullable = false)
-    private String harvest_period;
-
-    @Column(nullable = false)
     private int rate;
 
     @Column(nullable = false)
-    private String plant_period;
+    private double averageRate;
 
-    public String getPlant_period() {
-        return plant_period;
+    public Long getId() {
+        return id;
     }
 
-    public void setPlant_period(String plant_period) {
-        this.plant_period = plant_period;
-    }
-
-    public int getRate() {
-        return rate;
-    }
-
-    public void setRate(int rate) {
-        this.rate = rate;
-    }
-
-    public String getHarvest_period() {
-        return harvest_period;
-    }
-
-    public void setHarvest_period(String harvest_period) {
-        this.harvest_period = harvest_period;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -52,11 +33,19 @@ public class SuccessRate {
         this.name = name;
     }
 
-    public Long getId() {
-        return id;
+    public int getRate() {
+        return rate;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setRate(int rate) {
+        this.rate = rate;
+    }
+
+    public double getAverageRate() {
+        return averageRate;
+    }
+
+    public void setAverageRate(double averageRate) {
+        this.averageRate = averageRate;
     }
 }

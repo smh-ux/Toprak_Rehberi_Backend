@@ -2,28 +2,18 @@ package com.example.Internship.Controller;
 
 import com.example.Internship.Entity.Token;
 import com.example.Internship.Entity.User;
-//import com.example.Internship.JWT.JwtToken;
 import com.example.Internship.Repository.UserRepository;
 import com.example.Internship.Request.AuthenticationRequest;
 import com.example.Internship.Request.LoginRequest;
-import com.example.Internship.Response.AuthenticationResponse;
-//import com.example.Internship.Service.CustomerUserDetailsService;
 import com.example.Internship.Service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-//import org.springframework.security.authentication.AuthenticationManager;
-//import org.springframework.security.authentication.BadCredentialsException;
-//import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-//import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-
-// This is for REST API and HTTP request.
 
 @RestController
 @RequestMapping("/api/users")
@@ -33,7 +23,7 @@ public class UserController {
     private UserRepository userRepository;
 
     @Autowired
-    private TokenService tokenService; // TokenService sınıfını ekleyin
+    private TokenService tokenService;
 
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
@@ -41,7 +31,7 @@ public class UserController {
 
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            Token token = tokenService.generateToken(user.getId()); // Token oluşturma
+            Token token = tokenService.generateToken(user.getId()); // Token oluştur
             Map<String, Object> response = new HashMap<>();
             response.put("token", token.getToken());
             response.put("userId", user.getId());
@@ -49,6 +39,12 @@ public class UserController {
         } else {
             return ResponseEntity.status(401).body("Invalid username or password");
         }
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<User> registerUser(@RequestBody User user) {
+        User savedUser = userRepository.save(user);
+        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 }
 

@@ -6,6 +6,7 @@ public class LandDTO {
     private String town;
     private String neighborhood;
     private int area;
+    private Long neighborhoodId;
     private Long userId;
 
     public String getLandName() {
@@ -46,6 +47,14 @@ public class LandDTO {
 
     public void setArea(int area) {
         this.area = area;
+    }
+
+    public Long getNeighborhoodId() {
+        return neighborhoodId;
+    }
+
+    public void setNeighborhoodId(Long neighborhoodId) {
+        this.neighborhoodId = neighborhoodId;
     }
 
     public Long getUserId() {

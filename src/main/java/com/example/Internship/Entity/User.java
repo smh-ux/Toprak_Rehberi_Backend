@@ -19,9 +19,9 @@ public class User {
     @Column(nullable = false)
     private String password; // Make this hash
 
-    @OneToOne(mappedBy = "user")
-    @JsonIgnoreProperties("user")
-    private Token token;
+//    @OneToOne(mappedBy = "user")
+//    @JsonIgnoreProperties("user")
+//    private Token token;
 
     public Long getId() {
         return id;
@@ -47,11 +47,11 @@ public class User {
         this.password = password;
     }
 
-    public Token getToken() {
-        return token;
-    }
-
-    public void setToken(Token token) {
-        this.token = token;
-    }
+//    public Token getToken() {
+//        return token;
+//    }
+//
+//    public void setToken(Token token) {
+//        this.token = token;
+//    }
 }

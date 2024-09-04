@@ -18,7 +18,7 @@ public class Token {
 
     @OneToOne
     @JoinColumn(name = "user_id")
-    @JsonIgnoreProperties("token") // Gereksiz JSON kısımlarını kullanmasın diye.
+    @JsonIgnoreProperties("token")
     private User user;
 
     public Long getId() {

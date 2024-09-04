@@ -28,10 +28,15 @@ public class TokenService {
         token.setCreatedAt(LocalDateTime.now());
         token.setExpiresAt(LocalDateTime.now().plusHours(1)); // Token geçerlilik süresi 1 saat
 
-        // Kullanıcının eski token'ını kaldırmak için
-        if (user.getToken() != null) {
-            tokenRepository.delete(user.getToken());
+//        // Kullanıcının eski token'ını kaldırmak için
+//        if (user.getToken() != null) {
+//            tokenRepository.delete(user.getToken());
+//        }
+
+        if (token.getExpiresAt().isAfter(LocalDateTime.now())) {
+            tokenRepository.delete(token);
         }
+
 
         return tokenRepository.save(token);
     }
