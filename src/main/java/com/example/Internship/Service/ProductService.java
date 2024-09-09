@@ -28,9 +28,10 @@ public class ProductService {
 
         Map<String, List<Integer>> productScores = new HashMap<>();
 
-        for (Map.Entry<String, String> entry : request.getEvaluations().entrySet()) {
+        for (Map.Entry<String, EvaluationRequest.EvaluationDetail> entry : request.getEvaluations().entrySet()) {
             String productName = entry.getKey();
-            String evaluation = entry.getValue();
+            EvaluationRequest.EvaluationDetail evaluationDetail = entry.getValue();
+            String evaluation = evaluationDetail.getEvaluation();
             Integer score = scores.getOrDefault(evaluation, 0);
 
             productScores.computeIfAbsent(productName, k -> new ArrayList<>()).add(score);

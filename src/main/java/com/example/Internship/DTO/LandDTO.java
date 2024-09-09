@@ -1,6 +1,9 @@
 package com.example.Internship.DTO;
 
+import java.util.List;
+
 public class LandDTO {
+    private Long id;
     private String landName;
     private String city;
     private String town;
@@ -8,6 +11,16 @@ public class LandDTO {
     private int area;
     private Long neighborhoodId;
     private Long userId;
+
+    private List<ProductDTO> products;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getLandName() {
         return landName;
@@ -63,5 +76,13 @@ public class LandDTO {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public List<ProductDTO> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<ProductDTO> products) {
+        this.products = products;
     }
 }

@@ -1,7 +1,8 @@
 package com.example.Internship.Service;
 
-import com.example.Internship.Entity.Product;
+import com.example.Internship.Entity.Neighborhood;
 import com.example.Internship.Entity.SuccessRate;
+import com.example.Internship.Repository.NeighborhoodRepository;
 import com.example.Internship.Repository.ProductRepository;
 import com.example.Internship.Repository.SuccessRateRepository;
 import com.example.Internship.Request.EvaluationRequest;
@@ -22,6 +23,9 @@ public class SuccessRateService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private NeighborhoodRepository neighborhoodRepository;
+
     public List<SuccessRate> getAllSuccessRates() {
         return successRateRepository.findAll();
     }
@@ -32,31 +36,46 @@ public class SuccessRateService {
         scores.put("Normal", 50);
         scores.put("Bad", 5);
 
-        Map<String, List<Integer>> successRateScores = new HashMap<>();
-
-        for (Map.Entry<String, String> entry : request.getEvaluations().entrySet()) {
+        for (Map.Entry<String, EvaluationRequest.EvaluationDetail> entry : request.getEvaluations().entrySet()) {
             String successRateName = entry.getKey();
-            String evaluation = entry.getValue();
-            Integer score = scores.getOrDefault(evaluation, 0);
+            EvaluationRequest.EvaluationDetail evaluationDetail = entry.getValue();
+            String evaluation = evaluationDetail.getEvaluation();
+            Long neighborhoodId = evaluationDetail.getNeighborhoodId();
 
-            successRateScores.computeIfAbsent(successRateName, k -> new ArrayList<>()).add(score);
-        }
+            Integer newScore = scores.getOrDefault(evaluation, 0);
 
-        for (Map.Entry<String, List<Integer>> entry : successRateScores.entrySet()) {
-            String successRateName = entry.getKey();
-            List<Integer> scoresList = entry.getValue();
-            double average = scoresList.stream().mapToInt(Integer::intValue).average().orElse(0.0);
+            SuccessRate existingRate = successRateRepository.findByNameAndNeighborhoodId(successRateName, neighborhoodId);
 
-            // Save average to the database
-            successRateRepository.updateSuccessRate(successRateName, average);
+            if (existingRate != null) {
+                // Veri alımı
+                double currentRate = existingRate.getAverageRate();
+                int currentCount = existingRate.getCount();
+
+                // Yeni ortalamayı hesapla
+                double updatedRate = ((currentRate * currentCount) + newScore) / (currentCount + 1);
+
+                // Sayaç artır
+                int updatedCount = currentCount + 1;
+
+                // Yeni oranı veritabanına kaydediyoruz
+                successRateRepository.updateSuccessRate(successRateName, updatedRate, updatedCount, neighborhoodId);
+            } else {
+                // Eğer başarı oranı yoksa yeni bir kayıt oluşturuyoruz
+                SuccessRate newRate = new SuccessRate();
+                newRate.setName(successRateName);
+                newRate.setAverageRate(newScore); // İlk değerlendirme olduğu için direkt yeni skoru kaydediyoruz
+                newRate.setCount(0); // İlk değerlendirmede sayaç 1
+
+                // Yeni kaydı veritabanına ekliyoruz
+                newRate.setNeighborhood(neighborhoodRepository.findById(neighborhoodId)
+                        .orElseThrow(() -> new IllegalArgumentException("Mahalle bulunamadı")));
+                successRateRepository.save(newRate);
+            }
         }
     }
 
-//    public calculateAndUpdateSuccessRates(Long landId) {
-//        List<Product> products = productRepository.findByLandId(landId);
-//
-//        if(Product product : products) {
-//            List<SuccessRate> rates = successRateRepository.findByProductId(product);
-//        }
-//    }
+    public List<SuccessRate> getRatesByNeighborhood(Long neighborhoodId) {
+        return successRateRepository.findByNeighborhoodId(neighborhoodId);
+    }
+
 }

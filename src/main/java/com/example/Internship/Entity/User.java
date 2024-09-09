@@ -5,8 +5,6 @@ import jakarta.persistence.*;
 
 import java.util.List;
 
-// This is for create a user object.
-
 @Entity
 public class User {
     @Id
@@ -17,11 +15,7 @@ public class User {
     private String username;
 
     @Column(nullable = false)
-    private String password; // Make this hash
-
-//    @OneToOne(mappedBy = "user")
-//    @JsonIgnoreProperties("user")
-//    private Token token;
+    private String password;
 
     public Long getId() {
         return id;
@@ -47,11 +41,4 @@ public class User {
         this.password = password;
     }
 
-//    public Token getToken() {
-//        return token;
-//    }
-//
-//    public void setToken(Token token) {
-//        this.token = token;
-//    }
 }

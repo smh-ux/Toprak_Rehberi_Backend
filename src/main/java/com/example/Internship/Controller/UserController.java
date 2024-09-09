@@ -5,6 +5,8 @@ import com.example.Internship.Entity.User;
 import com.example.Internship.Repository.UserRepository;
 import com.example.Internship.Request.AuthenticationRequest;
 import com.example.Internship.Request.LoginRequest;
+import com.example.Internship.Response.AuthResponse;
+import com.example.Internship.Service.JWTService;
 import com.example.Internship.Service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,19 +27,19 @@ public class UserController {
     @Autowired
     private TokenService tokenService;
 
+    @Autowired
+    private JWTService jwtService;
+
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
         Optional<User> optionalUser = userRepository.findByUsernameAndPassword(loginRequest.getUsername(), loginRequest.getPassword());
 
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            Token token = tokenService.generateToken(user.getId()); // Token oluştur
-            Map<String, Object> response = new HashMap<>();
-            response.put("token", token.getToken());
-            response.put("userId", user.getId());
-            return ResponseEntity.ok(response); // Token'ı döndür
+            String token = jwtService.generateToken(user.getId());
+            return ResponseEntity.ok(new AuthResponse(token, user.getId()));
         } else {
-            return ResponseEntity.status(401).body("Invalid username or password");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
         }
     }
 

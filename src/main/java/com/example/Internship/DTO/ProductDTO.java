@@ -1,11 +1,20 @@
 package com.example.Internship.DTO;
 
 public class ProductDTO {
+    private Long id;
     private String name;
     private int plantedArea;
     private Long periodId;
     private Long successRateId;
     private Long landId;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
