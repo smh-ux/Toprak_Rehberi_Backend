@@ -2,6 +2,7 @@ package com.example.Internship.Controller;
 
 import com.example.Internship.Entity.Token;
 import com.example.Internship.Entity.User;
+import com.example.Internship.Generator.PasswordGenerator;
 import com.example.Internship.Repository.UserRepository;
 import com.example.Internship.Request.AuthenticationRequest;
 import com.example.Internship.Request.LoginRequest;
@@ -32,12 +33,19 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
-        Optional<User> optionalUser = userRepository.findByUsernameAndPassword(loginRequest.getUsername(), loginRequest.getPassword());
+        Optional<User> optionalUser = userRepository.findByUsername(loginRequest.getUsername());
 
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            String token = jwtService.generateToken(user.getId());
-            return ResponseEntity.ok(new AuthResponse(token, user.getId()));
+
+            boolean isPasswordMatch = PasswordGenerator.verifyPassword(loginRequest.getPassword(), user.getPassword());
+
+            if (isPasswordMatch) {
+                String token = jwtService.generateToken(user.getId());
+                return ResponseEntity.ok(new AuthResponse(token, user.getId()));
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+            }
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
         }
@@ -45,6 +53,8 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<User> registerUser(@RequestBody User user) {
+        String pass = PasswordGenerator.hashPassword(user.getPassword());
+        user.setPassword(pass);
         User savedUser = userRepository.save(user);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }

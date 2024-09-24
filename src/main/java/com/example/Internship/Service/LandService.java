@@ -47,7 +47,6 @@ public class LandService {
         land.setNeighborhood(landDTO.getNeighborhood());
         land.setArea(landDTO.getArea());
 
-        // Burada gerekirse ürünler veya kullanıcı ile ilgili işlemler yapılabilir
         return land;
     }
 }

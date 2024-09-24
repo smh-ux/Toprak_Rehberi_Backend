@@ -41,9 +41,6 @@ public class ProductService {
             String productName = entry.getKey();
             List<Integer> scoresList = entry.getValue();
             double average = scoresList.stream().mapToInt(Integer::intValue).average().orElse(0.0);
-
-//            // Save average to the database
-//            productRepository.updateProductEvaluation(productName, average);
         }
     }
 }

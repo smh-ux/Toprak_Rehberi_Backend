@@ -38,7 +38,6 @@ public class SuccessRateController {
     }
 
     @GetMapping("/fetch")
-
     public ResponseEntity<List<SuccessRate>> getAllSR() {
         List<SuccessRate> success = successRateRepository.findAll();
         return new ResponseEntity<>(success, HttpStatus.OK);

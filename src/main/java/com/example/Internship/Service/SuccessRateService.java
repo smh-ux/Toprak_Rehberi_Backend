@@ -51,22 +51,18 @@ public class SuccessRateService {
                 double currentRate = existingRate.getAverageRate();
                 int currentCount = existingRate.getCount();
 
-                // Yeni ortalamayı hesapla
                 double updatedRate = ((currentRate * currentCount) + newScore) / (currentCount + 1);
 
-                // Sayaç artır
                 int updatedCount = currentCount + 1;
 
-                // Yeni oranı veritabanına kaydediyoruz
                 successRateRepository.updateSuccessRate(successRateName, updatedRate, updatedCount, neighborhoodId);
             } else {
                 // Eğer başarı oranı yoksa yeni bir kayıt oluşturuyoruz
                 SuccessRate newRate = new SuccessRate();
                 newRate.setName(successRateName);
                 newRate.setAverageRate(newScore); // İlk değerlendirme olduğu için direkt yeni skoru kaydediyoruz
-                newRate.setCount(0); // İlk değerlendirmede sayaç 1
+                newRate.setCount(0); // İlk değerlendirmede sayaç 0 olmalı ki yukarıda 1 ile artırdığımızda ilk grilen değer yarısı olmasın.
 
-                // Yeni kaydı veritabanına ekliyoruz
                 newRate.setNeighborhood(neighborhoodRepository.findById(neighborhoodId)
                         .orElseThrow(() -> new IllegalArgumentException("Mahalle bulunamadı")));
                 successRateRepository.save(newRate);

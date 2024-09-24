@@ -19,9 +19,4 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Optional<Product> findByIdAndLandId(Long productId, Long landId);
 
     void deleteByLandId(Long landId);
-
-//    @Modifying
-//    @Query("UPDATE Product p SET p.averageEvaluation = :average WHERE p.name = :productName")
-//    void updateProductEvaluation(@Param("productName") String productName, @Param("average") double average);
-
 }
